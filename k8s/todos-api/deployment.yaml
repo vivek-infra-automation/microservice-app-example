@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,6 +6,10 @@ metadata:
   name: todos-api
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-app-example
+      service: todos-api
   template:
     metadata:
       labels:
@@ -27,9 +31,9 @@ spec:
         - name: ZIPKIN_URL
           value: http://zipkin:9411/api/v2/spans
           
-        image: todos-api
+        image: cloud2help/cicd-projects:todo-api
         name: todos-api
         ports:
         - containerPort: 8082
-        imagePullPolicy: Never
+        imagePullPolicy: Always
       restartPolicy: Always

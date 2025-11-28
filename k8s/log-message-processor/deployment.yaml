@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,6 +6,10 @@ metadata:
   name: log-message-processor
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-app-example
+      service: log-message-processor
   template:
     metadata:
       labels:
@@ -23,7 +27,7 @@ spec:
         - name: ZIPKIN_URL
           value: http://zipkin:9411/api/v1/spans
           
-        image: log-message-processor
+        image: cloud2help/cicd-projects:lmp
         name: log-message-processor
-        imagePullPolicy: Never
+        imagePullPolicy: Always
       restartPolicy: Always

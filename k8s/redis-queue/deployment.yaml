@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,6 +6,10 @@ metadata:
   name: redis-queue
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-app-example
+      service: redis-queue
   template:
     metadata:
       labels:
@@ -13,8 +17,7 @@ spec:
         service: redis-queue
     spec:
       containers:
-      - env:
-        image: redis
+      - image: redis
         name: redis-queue
         ports:
         - containerPort: 6379
